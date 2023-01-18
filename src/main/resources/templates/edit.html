@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css">
+    <title>Edit Movies</title>
+</head>
+<body>
+<h2>Edit Movies</h2>
+<p>
+    <a th:href="@{/admin/movies}">Back to list</a>
+</p>
+  <form th:action="@{/admin/movies/update}" th:object="${movie}" method="post" enctype="multipart/form-data">
+      <input type="hidden" th:field="*{id}">
+      <div>
+          <label>
+              Name
+          </label>
+          <input type="text" th:field="*{movieName}">
+      </div>
+      <div>
+          <label>
+              Slug
+          </label>
+          <input type="text" th:field="*{movieSlug}">
+      </div>
+      <div>
+          <label>
+              Thumb
+          </label>
+          <input type="text" th:field="*{movieThumb}">
+      </div>
+      <div>
+          <label>
+              Poster
+          </label>
+          <input type="text" th:field="*{moviePoster}">
+      </div>
+      <div>
+        <input type="checkbox" name="categories"
+               th:each="cate : ${categories}"
+                th:text="${cate.categoryName}"
+                th:value="${cate.id}"
+                th:field="*{categories}">
+      </div>
+      <div>
+          <input type="checkbox" name="regions"
+                 th:each="region : ${regions}"
+                 th:text="${region.regionName}"
+                 th:value="${region.id}"
+                 th:field="*{regions}">
+      </div>
+      <thead>
+      <tr>
+          <th>Name</th>
+          <th>Slug</th>
+          <th>Link</th>
+          <th>
+              <button type="submit" name="add">Add</button>
+          </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="e,eStat : *{episodes}">
+          <input type="hidden" th:field="*{episodes[__${eStat.index}__].id}"><br>
+          Name <input type="text" th:field="*{episodes[__${eStat.index}__].episodeName}">
+          Slug <input type="text" th:field="*{episodes[__${eStat.index}__].episodeSlug}">
+          Link <input type="text" th:field="*{episodes[__${eStat.index}__].episodeLink}">
+          <td>
+              <button type="submit" name="remove" th:value="${eStat.index}">Remove</button>
+          </td>
+      </tr>
+      </tbody>
+      <input type="submit" value="Update">
+  </form>
+</body>
+</html>

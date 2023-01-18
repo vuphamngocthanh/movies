@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css">
+    <title>Create</title>
+</head>
+<body>
+  <form th:action="@{/admin/movies/create/save}" th:object="${movie}" method="post"  enctype="multipart/form-data">
+    <input type="hidden" th:field="*{id}">
+      <div>
+          Name <input type="text" th:field="*{movieName}">
+      </div>
+      <div>
+          Name <input type="text" th:field="*{movieSlug}">
+      </div>
+      <div>
+          Thumb Image  <input type="file" name="thumb" accept="image/*" class="form-control-file">
+      </div>
+      <div>
+          Poster Image  <input type="file" name="poster" accept="image/*" class="form-control-file">
+      </div>
+      <div th:each="cate :${categories}">
+        Category <input type="checkbox" th:field="*{categories}"
+                                        th:value="${cate.id}"
+                                        th:text="${cate.categoryName}">
+      </div>
+      <div th:each="region :${regions}">
+          Category <input type="checkbox" th:field="*{regions}"
+                          th:value="${region.id}"
+                          th:text="${region.regionName}">
+      </div>
+      <thead>
+            <tr>
+                <th>Name</th>
+                <th>Slug</th>
+                <th>Link</th>
+                <th>
+                    <button type="submit" name="add">Add</button>
+                </th>
+            </tr>
+      </thead>
+      <tbody>
+        <tr th:each="e,eStat : *{episodes}">
+            <input type="hidden" th:field="*{episodes[__${eStat.index}__].id}"><br>
+            <input th:placeholder="${eStat.count}"><br>
+            Name <input type="text" th:field="*{episodes[__${eStat.index}__].episodeName}"><br>
+            Slug <input type="text" th:field="*{episodes[__${eStat.index}__].episodeSlug}"><br>
+            Link <input type="text" th:field="*{episodes[__${eStat.index}__].episodeLink}"><br>
+            <td>
+                <button type="submit" name="remove" th:value="${eStat.index}">Remove</button>
+            </td>
+        </tr>
+      </tbody>
+      <input type="submit" th:value="Create">
+  </form>
+</body>
+</html>

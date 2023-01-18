@@ -1,0 +1,1 @@
+web: java -Dserver.port=$PORT $JAVA_OPTS -war build/libs/movie-project-0.0.1-SNAPSHOT.jar

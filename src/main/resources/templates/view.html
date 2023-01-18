@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css">
+    <title>View</title>
+</head>
+<body>
+<h1>Movies DashBoard</h1>
+<p>
+    <a th:href="@{/admin/movies/create}">Create Movies</a>
+</p>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Slug</th>
+        <th>Category</th>
+        <th>Regions</th>
+        <th>Episode</th>
+        <th>Thumb</th>
+        <th>Poster</th>
+        <th>Delete</th>
+    </tr>
+    <tr th:each="m : ${movies}">
+        <td ><a th:href="@{/admin/movies/edit-{id}(id=${m.id})}" th:text="${m.movieName}"></a></td>
+        <td th:text="${m.movieSlug}"></td>
+        <th:block th:each="cate : ${m.categories}">
+            <td th:text="${cate.categoryName}"></td>
+        </th:block>
+        <th:block th:each="region : ${m.regions}">
+            <td th:text="${region.regionName}"></td>
+        </th:block>
+        <th:block th:each="episode : ${m.episodes}">
+            <td th:text="${episode.episodeName}"></td>
+        </th:block>
+        <td>
+            <img width="300px" height="200px" th:src="${m.movieThumb}">
+        </td>
+        <td>
+            <img width="300px" height="200px" th:src="${m.moviePoster}">
+        </td>
+        <td>
+            <a th:href="@{/admin/movies/delete-{id}(id=${m.id})}">Delete</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
